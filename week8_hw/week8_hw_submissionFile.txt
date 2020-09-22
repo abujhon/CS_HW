@@ -1,0 +1,11 @@
+Phase 1:
+1. Only Hollywood Application server is accepting request 167.172.144.11/32
+Commands used:
+fping -s -g 15.199.95.91 15.199.95.106  unreachable
+fping -s -g 15.199.94.91 15.199.94.106  unreachable
+fping -s -g 11.199.158.91 11.199.158.106 unreachable
+fping 167.172.144.11 alive - accepting connection
+fping -s -g 11.199.141.91 11.199.141.106 unreachable
+Networking layer
+
+2. 
