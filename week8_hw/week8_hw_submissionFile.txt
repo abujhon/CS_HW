@@ -4,8 +4,57 @@ Commands used:
 fping -s -g 15.199.95.91 15.199.95.106  unreachable
 fping -s -g 15.199.94.91 15.199.94.106  unreachable
 fping -s -g 11.199.158.91 11.199.158.106 unreachable
-fping 167.172.144.11 alive - accepting connection
 fping -s -g 11.199.141.91 11.199.141.106 unreachable
-Networking layer
+fping 167.172.144.11 alive - accepting connection
 
+167.172.144.11 is alive
+
+       1 targets
+       1 alive
+       0 unreachable
+       0 unknown addresses
+
+       0 timeouts (waiting for response)
+       1 ICMP Echos sent
+       1 ICMP Echo Replies received
+
+Happening on Networking layer
+
+Phase 2: 
+
+1. Determine which ports are open. 
+
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+2. Happening at Transport layer
+
+Phase 3: 
+
+1. ssh jimi@167.172.144.11
 2. 
+nslookup rollingstone.com
+Server:		192.168.1.1
+Address:	192.168.1.1#53
+
+Non-authoritative answer:
+Name:	rollingstone.com
+Address: 151.101.192.69
+Name:	rollingstone.com
+Address: 151.101.64.69
+Name:	rollingstone.com
+Address: 151.101.0.69
+Name:	rollingstone.com
+Address: 151.101.128.69
+
+3. 
+cat /etc/resolv.conf
+nameserver 67.207.67.2
+nameserver 67.207.67.3
+
+4. Application layer
+
+Phase 4:
+
+couldn't find the .pcap file. sorry. 
+
