@@ -1,0 +1,161 @@
+Unit 11 Submission File: Network Security Homework
+The concept of defense in depth can be broken down into three different security control types. Identify the security control type of each set of defense tactics.
+
+1. Walls, bollards, fences, guard dogs, cameras, and lighting are what type of security control?
+Answer: 
+Physical security
+2. Security awareness programs, BYOD policies, and ethical hiring practices are what type of security control?
+Answer: 
+Information securtiy control.  
+3. Encryption, biometric fingerprint readers, firewalls, endpoint security, and intrusion detection systems are what type of security control?
+Answer: 
+Defensive security control
+4. What’s the difference between an IDS and an IPS?
+Answer: 
+the main difference is IDS (intrusion detection system) is monitoring system whereas IPS (intrusion prevention system) is preventative or control system. 
+5. What’s the difference between an Indicator of Attack and an Indicator of Compromise?
+Answer: 
+indicators of attack (IOA) focus on detecting the intent of what an attacker is trying to accomplish. 
+whereas indicator of compromise focuses on what happened, meaning it serves as forensic avedence of potential intrusion
+
+Name each of the seven stages for the Cyber Kill chain and provide a brief example of each.
+
+Stage 1: Reconnaissance - harvestion email addresses and confrence information
+Stage 2: Weaponizaton - coupling exploit with backdoor into deliverable payload
+Stage 3: Delivery - delivering weaponized bundle to the victem via email, web USB ect
+Stage 4: Exploitation - exploiting a vulnerability to execute code on victems system
+Stage 5: Installation - installing malware on the asset
+Stage 6: Conmmand and Control - command channel for remote manipulation of victem 
+Stage 7: Actions on objectives - with hands on keyboard access, intruder accomplish their original goal
+
+Use the Snort rule to answer the following questions:
+Snort Rule #1
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET 5800:5820 (msg:“ET SCAN Potential VNC Scan 5800-5820”; flags:S,12; threshold: type both, track by_src, count 5, seconds 60; reference:url,doc.emergingthreats.net/2002910; classtype:attempted-recon; sid:2002910; rev:5; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+Break down the Sort Rule header and explain what is happening.
+Answer: 
+any alert with certain external IP address and any ports, and certain home ip with specific port range 
+
+2. What stage of the Cyber Kill Chain does this alert violate?
+Answer: Delivery stage
+
+3. What kind of attack is indicated?
+Answer:  those ports are used by VNC (virtual network computiing) services,  probably it's a VNC attack
+
+Snort Rule #2
+
+alert tcp $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (msg:“ET POLICY PE EXE or DLL Windows file download HTTP”; flow:established,to_client; flowbits:isnotset,ET.http.binary; flowbits:isnotset,ET.INFO.WindowsUpdate; file_data; content:“MZ”; within:2; byte_jump:4,58,relative,little; content:“PE|00 00|“; distance:-64; within:4; flowbits:set,ET.http.binary; metadata: former_category POLICY; reference:url,doc.emergingthreats.net/bin/view/Main/2018959; classtype:policy-violation; sid:2018959; rev:4; metadata:created_at 2014_08_19, updated_at 2017_02_01;)
+Break down the Sort Rule header and explain what is happening.
+Answer: any alert with certain external IP address and certain ports, and certain home ip with any port
+2. What layer of the Defense in Depth model does this alert violate?
+Answer: Application layer
+3. What kind of attack is indicated?
+Answer: DLL Hijacking via URL files
+
+
+Log in using the following credentials:
+
+Username: sysadmin
+Password: cybersecurity
+Before getting started, you should verify that you do not have any instances of ufw running. This will avoid conflicts with your firewalld service. This also ensures that firewalld will be your default firewall.
+
+Run the command that removes any running instance of ufw.
+$ sudo ufw disable
+By default, these service should be running. If not, then run the following commands:
+
+Run the commands that enable and start firewalld upon boots and reboots.
+$ sudo ufw enable
+$ sudo ufw start
+Note: This will ensure that firewalld remains active after each reboot.
+Run the command that checks whether or not the firewalld service is up and running.
+$ sudo ufw status
+Next, lists all currently configured firewall rules. This will give you a good idea of what’s currently configured and save you time in the long run by not doing double work.
+Run the command that lists all currently configured firewall rules:
+$ sudo ufw status
+Take note of what Zones and settings are configured. You many need to remove unneeded services and settings.
+Run the command that lists all currently supported services to see if the service you need is available
+$ sudo ufw status
+We can see that the Home and Drop Zones are created by default.
+Run the command that lists all currently configured zones.
+$ firewall-cmd --list-all-zones
+We can see that the Public and Drop Zones are created by default. Therefore, we will need to create Zones for Web, Sales, and Mail.
+Run the commands that creates Web, Sales and Mail zones.
+$ firewall-cmd --new-zone=webzone
+$ firewall-cmd --new-zone=saleszone
+$ firewall-cmd --new-zone=mailzone
+Run the command that sets your eth0 interface to your zones.
+$ firewal-cmd --permanent --zone=webzone --add-interface=eth0
+$ firewal-cmd --permanent --zone=saleszone --add-interface=eth0
+$ firewal-cmd --permanent --zone=mailzone --add-interface=eth0
+firewal-cmd --permanent --zone=public --add-interface=eth0
+Run the commands that add services to the public zone, the web zone, the sales zone, and the mail zone.
+Public:
+$ firewall-cmd --permanent --service=publicHTTP --add-protocal=HTTP
+$ firewall-cmd --permanent --service=publicHTTPS --add-protocal=HTTPS
+$ firewall-cmd --permanent --service=publicPOP3 --add-protocal=POP3
+$ firewall-cmd --permanent --service=publicSMTP --add-protocal=SMTP
+
+Web:
+firewall-cmd --permanent --service=webHTTP --add-protocal=HTTP
+Sales
+firewall-cmd --permanent --service=salesHTTPS --add-protocal=HTTPS
+Mail
+$ firewall-cmd --permanent --service=mailSMTP --add-protocal=SMTP
+$ firewall-cmd --permanent --service=mailPOP3 --add-protocal=POP3
+
+What is the status of http, https, smtp and pop3?
+Run the command that will add all current and any future blacklisted IPs to the Drop Zone.
+It’s good practice to ensure that your firewalld installation remains nailed up and retains its services across reboots. This ensure that the network remains secured after unplanned outages such as power failures.
+
+Run the command that reloads the firewalld configurations and writes it to memory
+Now, we’ll want to provide truncated listings of all currently active zones. This a good time to verify your zone settings.
+
+Run the command that displays all zone services.
+Use a rich-rule that blocks the IP address 138.138.0.3.
+
+Harden your network against ping scans by blocking icmp ehco replies.
+
+Run the command that blocks pings and icmp requests in your public zone.
+Now that you’ve set up your brand new firewalld installation, it’s time to verify that all of the settings have taken effect.
+
+Run the command that lists all of the rule settings. Do one command at a time for each zone.
+Are all of our rules in place? If not, then go back and make the necessary modifications before checking again.
+Congratulations! You have successfully configured and deployed a fully comprehensive firewalld installation.
+
+
+Now, we will work on another lab. Before you start, complete the following review questions.
+
+Name and define two ways an IDS connects to a network.
+Answer 1: NIDS - Network intrusion detection systems gain access to network traffic by connecting to a network hub, a network switch configured for port mirroring or a network tap
+Answer 2: HIDS - A HIDS consists of an agent on a host that identifies intrusions by analyzing system calls, application logs, file-system modifications (binaries, password files, capability databases, access control lists and so on) and other host activities and state.
+2. Describe how an IPS connects to a network.
+Answer: 
+3. What type of IDS compares patterns of traffic to predefined signatures and is unable to detect Zero-Day attacks?
+Answer: Signature-based IDS
+4. Which type of IDS is beneficial for detecting all suspicious traffic that deviates from the well-known baseline and is excellent at detecting when an attacker probes or sweeps a network?
+Answer: Statistical anomaly-based IDS
+
+For each of the following scenarios, provide the layer of Defense in Depth that applies:
+A criminal hacker tailgates an employee through an exterior door into a secured facility, explaining that they forgot their badge at home.
+Answer: Physical Control
+A zero-day goes undetected by antivirus software.
+Answer: Technical control
+A criminal successfully gains access to HR’s database.
+Answer: Administrative control
+A criminal hacker exploits a vulnerability within an operating system.
+Answer: Technical Controls
+A hacktivist organization successfully performs a DDoS attack, taking down a government website.
+Answer: Technical Controls
+Data is classified at the wrong classification level.
+Answer: Administrative control
+A state sponsored hacker group successfully firewalked an organization to produce a list of active services on an email server.
+Answer: Technical control
+Name one method of protecting data-at-rest from being readable on hard drive.
+Answer: Data encryption
+10. Name one method to protect data-in-transit.
+Answer: data encryption
+11. What technology could provide law enforcement with the ability to track and recover a stolen laptop.
+Answer: LoJack
+12. How could you prevent an attacker from booting a stolen laptop using an external hard drive?
+Answer: 
+

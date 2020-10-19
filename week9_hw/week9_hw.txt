@@ -76,3 +76,44 @@ there is no cname set up for "resistance.theforce.net"
 www.theforce.net	canonical name = resistance.theforce.net.
 theforce.net	nameserver = ns-2.wise-advice.com.
 theforce.net	nameserver = ns-1.wise-advice.com.
+
+4. Your mission:
+
+#Confirm the DNS records for princessleia.site.
+nslookup -type=ns  princessleia.site
+Server:		192.168.1.1
+Address:	192.168.1.1#53
+
+Non-authoritative answer:
+princessleia.site	nameserver = ns25.domaincontrol.com.
+princessleia.site	nameserver = ns26.domaincontrol.com.
+
+Authoritative answers can be found from:
+ns25.domaincontrol.com	internet address = 97.74.102.13
+ns26.domaincontrol.com	internet address = 173.201.70.13
+ns25.domaincontrol.com	has AAAA address 2603:5:2161::d
+
+#Document how you would fix the DNS record to prevent this issue from happening again.
+princessleia.site	nameserver = ns25.domaincontrol.com.
+princessleia.site	nameserver = ns26.domaincontrol.com.
+princessleia.site	nameserver = ns2.galaxybackup.com
+
+5. Your Mission:
+
+#View the Galaxy Network Map and determine the OSPF shortest path from Batuu to Jedha.
+Batuu - D - C - E - F - J - K - N - O - R - Q - T - V - Jedha
+#Confirm your path doesn't include Planet N in its route.
+Batuu - D - C - G - O - R - Q - T - V - Jedha
+#Document this shortest path so it can be used by the Resistance to develop a static route to improve the traffic.
+Batuu - D - C - G - O - R - Q - T - V - Jedha
+
+6. Your Mission:
+
+#Figure out the Dark Side's secret wireless key by using Aircrack-ng.
+    *Hint: This is a more challenging encrypted wireless traffic using WPA.
+    *In order to decrypt, you will need to use a wordlist (-w) such as rockyou.txt.
+#Use the Dark Side's key to decrypt the wireless traffic in Wireshark.
+    *Hint: The format for they key to decrypt wireless is <Wireless_key>:<SSID>.
+#Once you have decrypted the traffic, figure out the following Dark Side information:
+    *Host IP Addresses and MAC Addresses by looking at the decrypted ARP traffic.
+    *Document these IP and MAC Addresses, as the resistance will use these IP addresses to launch a retaliatory attack.
