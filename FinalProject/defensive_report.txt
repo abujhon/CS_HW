@@ -1,0 +1,76 @@
+# Blue Team: Summary of Operations
+​
+## Table of Contents
+- Network Topology
+- Description of Targets
+- Monitoring the Targets
+- Patterns of Traffic & Behavior
+- Suggestions for Going Further
+​
+### Network Topology
+Refer to: network topology.jpeg
+​
+The following machines were identified on the network:
+- Name of VM 1:  Target1
+  - **Operating System**: Linux OS
+  - **Purpose**: General purpose
+  - **IP Address**: 192.168.1.110
+
+- Name of VM 2: Target2
+  - **Operating System**: 
+  - **Purpose**:
+  - **IP Address**:
+- Etc.
+​
+### Description of Targets
+Answer the questions below:
+
+The target of this attack was: `Target 1` (192.168.1.110 ).
+Target 1 is an Apache web server and has SSH enabled, so ports 80 and 22 are possible ports of entry for attackers. As such, the following alerts have been implemented:
+### Monitoring the Targets
+Traffic to these services should be carefully monitored. To this end, we have implemented the alerts below:
+​
+#### Name of Alert 1
+_TODO: Replace `Overhead HTTP Request Alert` with the name of the alert._
+​
+Alert 1 is implemented as follows:
+  - **Metric**: Excessive HTTP Request 
+  - **Threshold**: Above 500 every 5min
+  - **Vulnerability Mitigated**: Create custom ssh port not port 33,use TCp Wrappers to help filter who can access the Openssh server to mitigate ssh hacking
+  - **Reliability**: TODO: Does this alert generate lots of false positives/false negatives? Rate as low, medium, or high reliability.
+​Generates lots of false positives at medium rate reliability.
+
+
+#### Name of Alert 2: CPU Monitor
+Alert 2 is implemented as follows:
+  - **Metric**: Cpu Usage Monitor
+  - **Threshold**: above 0.5 every 5 minutes
+  - **Vulnerability Mitigated**: use strong passwords policies, keep wordpress themes, plugins & core up to date to mitigate wordpress hacking
+  - **Reliability**: TODO: Does this alert generate lots of false positives/false negatives? Rate as low, medium, or high reliability.
+​Generates lots of false positives at medium rate reliability.
+
+#### Name of Alert 3: Http Request size Monitor
+Alert 3 is implemented as follows:
+  - **Metric**: Http Request size Monitor
+  - **Threshold**: Above 3500 every 5 minutes
+  - **Vulnerability Mitigated**: Use scan and sweep filters to track the number of port scan and host sweep attempts. One can enable filter 7000,7004 & 7016 to block port scans against Nmap sweeping
+  - **Reliability**: TODO: Does this alert generate lots of false positives/false negatives? Rate as low, medium, or high reliability.
+​Generates lots of false positives at medium rate reliability.
+​
+- Each alert above pertains to a specific vulnerability/exploit. Recall that alerts only detect malicious behavior, but do not stop it. For each vulnerability/exploit identified by the alerts above, suggest a patch. E.g., implementing a blocklist is an effective tactic against brute-force attacks. It is not necessary to explain _how_ to implement each patch.
+​
+The logs and alerts generated during the assessment suggest that this network is susceptible to several active threats, identified by the alerts above. In addition to watching for occurrences of such threats, the network should be hardened against them. The Blue Team suggests that IT implement the fixes below to protect the network:
+
+Refer to patching.jpeg
+- Vulnerability 1
+  - **Patch**: $sudo apt-get install openssh-client openssh-server openssh-sftp-server
+  - **Why It Works**: TODO: E.g., _`special-security-package` scans the system for viruses every day_
+  It updates the openssh server, openssh-client, openssh-sftp-server and updates the patches
+
+- Vulnerability 2
+  - **Patch**: $sudo apt-get install openssh-client openssh-server openssh-sftp-server
+- **Why It Works**: It will scan your site thoroughly every day. If there’s any suspicious behavior or malicious activity on your site, you’ll be alerted immediately. You can take action and fix your site instantly with MalCare before Google gets a chance to blacklist your site or your hosting provider decides to suspend your site.
+
+- Vulnerability 3
+  - **Patch**: enable filters 7000 to 7004 and 7016
+  - **Why It Works**: It blocks or detect and block port scanning and host sweeps

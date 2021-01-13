@@ -1,0 +1,78 @@
+# Red Team: Summary of Operations
+​
+## Table of Contents
+- Exposed Services
+- Critical Vulnerabilities
+- Exploitation
+​
+### Exposed Services
+_TODO: Fill out the information below._
+Nmap scan results for each machine reveal the below services and OS details:
+​#Add command to Scan Target 1:
+$nmap -sP 192.168.1.110 
+
+PORT       STATUS   SERVICES
+22/tcp     open     shh
+80/tcp     open     http
+111/tcp    open     rpcbind
+139/tcp    open     netbios-ssn
+445/tcp    open     microsoft-ds
+MAC address: 00:15:5D:00:04:10 (Microsoft)
+
+Refer to: nmap scan result.jpeg
+          nmap scan result2.jpeg
+
+
+```
+This scan identifies the services below as potential points of entry:
+- Target 1
+  - List of ports
+     Port 22 ssh (Open ssh) 6.7p1 Debian 5 + deb8u4 (protocol 2.0)
+          80 http apache httd 2.4.10 ((debian))
+          111(2-4 rcp #100000),
+          139 netBios-ssn samba smbd 3.x - 4.x (workgroup:  WORKGROUP)
+          445 netBios-ssn samba smbd 3.x - 4.x (workgroup:  WORKGROUP)
+  - Exposed Exploitable Services 
+​     wordpress
+     myysql
+
+
+_TODO: Fill out the list below. Include severity, and CVE numbers, if possible._
+​
+The following vulnerabilities were identified on each target:
+- Target 1
+  - List of
+  - Critical
+  - Vulnerabilities
+​
+_TODO: Include vulnerability scan results to prove the identified vulnerabilities._
+   CVE-2013-0235 word press exploit
+   CVE-2014-5432 Remote access into port 22 without authentication
+   CVE-2017-7679 Nmap scanning vulnerability
+​
+### Exploitation
+_TODO: Fill out the details below. Include screenshots where possible.
+The Red Team was able to penetrate `Target 1` and retrieve the following confidential data:
+
+1. Scan the network to identify the IP addresses of Target 1.
+    $nmap -sV 192.168.1.110
+2. Document all exposed ports and services.
+    nmapScanResult2.jpeg
+3. Enumerate the WordPress site. One flag is discoverable after this step.
+    **Hint**: Look for the `Users` section in the output.
+    wpscan –-url http://192.168.1.110/wordpress -eu
+    Refer to: emumerating.png
+4. SSH to target system with acquired user credentials
+    ssh to target machine.png
+5. Find the MySQL database password.
+    find wpconfig.png
+    get credentials.png
+6. Use the credentials to log into MySQL and dump WordPress user password hashes
+    access to mysql.png
+7. query the database to find useful information 
+    mysql> select * from wp_posts;
+    refer to: flags.jpeg
+    mysql> select * from wp_users;
+    refer to: users.jpeg
+8. crack the password
+    refer to password crack.jpeg
